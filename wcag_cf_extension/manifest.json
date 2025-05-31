@@ -1,0 +1,35 @@
+{
+  "name": "WCAG_CF",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Run WCAG custom rule-based accessibility checks",
+  "permissions": ["scripting", "activeTab", "tabs"],
+  "host_permissions": ["<all_urls>"],
+
+  "action": {
+    "default_popup": "popup.html"
+  },
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "scripts/jquery-3.6.0.min.js",
+        "scripts/1_1_1_NonTextContent(A).js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["scripts/*.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
