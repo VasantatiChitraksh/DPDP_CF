@@ -3,6 +3,7 @@
 
 (() => {
   'use strict';
+  console.log('%cWCAG 1.1.1', 'color:white;background-color:green; padding: 5px 50px; font-weight: bold;');
   
   console.log('🔍 WCAG 1.1.1 Checker initializing...');
   

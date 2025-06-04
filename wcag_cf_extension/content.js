@@ -7,5 +7,14 @@ function injectScript(file) {
 }
 
 // Add any other rules here
-injectScript("scripts/1_1_1_NonTextContent(A).js");
 // Example: injectScript("scripts/2_4_4_LinkPurposeInContext.js");
+//-----
+injectScript("scripts/1_1_1_NonTextContent(A).js");
+injectScript("scripts/1_2_1_Audio_Video_Only_Prerecorded.js");
+injectScript("scripts/1_2_2_Captions_Prerecorded.js");
+injectScript("scripts/1_2_3_Audio_Description_Media_Alternative_Prerecorded.js");
+injectScript("scripts/1_2_5_Audio_Description_Prerecorded.js");
+injectScript("scripts/1_3_1_Info_Relationship.js");
+injectScript("scripts/1_3_4_Orientation.js");
+injectScript("scripts/1_3_5_Identify_Input_Purpose.js");
+//-----

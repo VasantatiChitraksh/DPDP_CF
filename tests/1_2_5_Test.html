@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WCAG 1.2.5 Audio Description Test Site</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #34495e;
+            border-left: 4px solid #e74c3c;
+            padding-left: 15px;
+            margin-top: 40px;
+        }
+
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+
+        .test-description {
+            background: #e8f4fd;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .test-description strong {
+            color: #2980b9;
+        }
+
+        video, iframe, object, embed {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+            display: block;
+        }
+
+        iframe {
+            width: 100%;
+            height: 315px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #2c3e50;
+            border-radius: 10px;
+        }
+
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .btn.clear {
+            background: #e74c3c;
+        }
+
+        .btn.clear:hover {
+            background: #c0392b;
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #1a1a1a;
+            color: #00ff00;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .legend {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .legend h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            margin-right: 10px;
+            border: 2px solid;
+        }
+
+        .legend-color.video {
+            background: rgba(231, 76, 60, 0.3);
+            border-color: #e74c3c;
+        }
+
+        .legend-color.iframe {
+            background: rgba(243, 156, 18, 0.3);
+            border-color: #f39c12;
+        }
+
+        .legend-color.object {
+            background: rgba(155, 89, 182, 0.3);
+            border-color: #9b59b6;
+        }
+
+        .note {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 15px 0;
+            color: #0c5460;
+        }
+
+        #console-output {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎥 WCAG 1.2.5 Audio Description Test Site</h1>
+        
+        <div class="note">
+            <strong>Purpose:</strong> This test site contains various video scenarios to demonstrate the WCAG 1.2.5 Audio Description checker. 
+            Click "Run WCAG 1.2.5 Check" to analyze all video content on this page.
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="runChecker()">🔍 Run WCAG 1.2.5 Check</button>
+            <button class="btn clear" onclick="clearHighlights()">🧹 Clear Highlights</button>
+            <button class="btn" onclick="toggleConsole()">📋 Toggle Console</button>
+        </div>
+
+        <div id="console-output" class="results"></div>
+
+        <div class="legend">
+            <h3>Violation Highlight Legend</h3>
+            <div class="legend-item">
+                <div class="legend-color video"></div>
+                <span>HTML5 Video Elements (Red border)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color iframe"></div>
+                <span>Embedded Video iFrames (Orange border)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color object"></div>
+                <span>Object/Embed Elements (Purple border)</span>
+            </div>
+        </div>
+
+        <h2>1. ✅ Compliant Video (Has Audio Description Track)</h2>
+        <div class="test-section">
+            <div class="test-description">
+                <strong>Expected Result:</strong> Should NOT be flagged - contains proper audio description track
+            </div>
+            <video controls width="640" height="360" title="Video with audio description">
+                <source src="https://sample-videos.com/zip/10/mp4/480/sample.mp4" type="video/mp4">
+                <track kind="descriptions" src="audio-description.vtt" srclang="en" label="Audio Description">
+                <track kind="captions" src="captions.vtt" srclang="en" label="English Captions">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <h2>2. ❌ Non-Compliant Video (Missing Audio Description)</h2>
+        <div class="test-section">
+            <div class="test-description">
+                <strong>Expected Result:</strong> Should be flagged - missing audio description track
+            </div>
+            <video controls width="640" height="360">
+                <source src="https://sample-videos.com/zip/10/mp4/480/sample2.mp4" type="video/mp4">
+                <track kind="captions" src="captions.vtt" srclang="en" label="English Captions">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <h2>3. ❌ YouTube Embedded Video</h2>
+        <div class="test-section">
+            <div class="test-description">
+                <strong>Expected Result:</strong> Should be flagged - embedded video requiring manual verification
+            </div>
+            <iframe 
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                title="YouTube video player" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <h2>4. ❌ Vimeo Embedded Video</h2>
+        <div class="test-section">
+            <div class="test-description">
+                <strong>Expected Result:</strong> Should be flagged - embedded video requiring manual verification
+            </div>
+            <iframe 
+                src="https://player.vimeo.com/video/123456789" 
+                title="Vimeo video player"
+                allow="autoplay; fullscreen; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <h2>5. ⚠️ Video with Multiple Audio Sources</h2>
+        <div class="test-section">
+            <div class="test-description">
+                <strong>Expected Result:</strong> May be flagged with note about multiple audio sources
+            </div>
+            <video controls width="640" height="360" aria-describedby="video-desc">
+                <source src="https://sample-videos.com/zip/10/mp4/480/sample3.mp4" type="video/mp4">
+                <source src="https://sample-videos.com/zip/10/mp4/480/sample3-audio-desc.mp4" type="video/mp4">
+                <track kind="captions" src="captions.vtt" srclang="en" label="English Captions">
+                Your browser does not support the video tag.
+            </video>
+            <div id="video-desc" style="display: none;">
+                This video includes integrated audio description for visual elements.
+            </div>
+        </div>
+
+        <h2>6. ✅ Video with ARIA Description Reference</h2>
+        <div class="test-section">
+            <div class="test-description">
+                <strong>Expected Result:</strong> Should NOT be flagged - has aria-describedby referencing audio description
+            </div>
+            <video controls width="640" height="360" aria-describedby="audio-desc-text">
+                <source src="https://sample-videos.com/zip/10/mp4/480/sample4.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div id="audio-desc-text" style="display: none;">
+                Audio description: This video includes comprehensive audio description of all visual elements.
+            </div>
+        </div>
+
+        <h2>7. 🔴 Object/Embed Video Content</h2>
+        <div class="test-section">
+            <div class="test-description">
+                <strong>Expected Result:</strong> Should be flagged - object element with video content
+            </div>
+            <object data="sample-video.mp4" type="video/mp4" width="640" height="360">
+                <param name="autoplay" value="false">
+                <param name="controls" value="true">
+                <p>Your browser does not support embedded video content.</p>
+            </object>
+        </div>
+
+        <h2>8. ⚠️ Live Stream (Should be Exempt)</h2>
+        <div class="test-section">
+            <div class="test-description">
+                <strong>Expected Result:</strong> Should NOT be flagged - live content is exempt from 1.2.5
+            </div>
+            <video controls width="640" height="360" title="Live broadcast stream">
+                <source src="https://example.com/live-stream.m3u8" type="application/x-mpegURL">
+                Your browser does not support live streaming.
+            </video>
+        </div>
+
+        <h2>9. ❌ Dailymotion Embedded Video</h2>
+        <div class="test-section">
+            <div class="test-description">
+                <strong>Expected Result:</strong> Should be flagged - embedded video requiring manual verification
+            </div>
+            <iframe 
+                src="https://www.dailymotion.com/embed/video/x123456" 
+                title="Dailymotion video player"
+                allow="autoplay; fullscreen" 
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <h2>10. ❌ Flash Video Embed</h2>
+        <div class="test-section">
+            <div class="test-description">
+                <strong>Expected Result:</strong> Should be flagged - Flash video content
+            </div>
+            <embed src="video-content.swf" type="application/x-shockwave-flash" width="640" height="360">
+        </div>
+    </div>
+
+    <!-- jQuery for compatibility -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        // WCAG 1.2.5 Audio Description (Prerecorded) Accessibility Checker
+        // Production version - Clean and professional
+
+        function initWCAGChecker() {
+            'use strict';
+            
+            console.log('🔍 WCAG 1.2.5 Checker initializing...');
+            
+            // Configuration
+            const config = {
+                highlightViolations: true,
+                logViolations: true,
+                showSummary: true,
+                violationStyles: {
+                    video: { border: '3px solid #e74c3c', boxShadow: '0 0 8px #e74c3c', outline: '2px solid #c0392b' },
+                    iframe: { border: '3px solid #f39c12', boxShadow: '0 0 8px #f39c12', outline: '2px solid #d68910' },
+                    object: { border: '3px solid #9b59b6', boxShadow: '0 0 8px #9b59b6', outline: '2px solid #7d3c98' }
+                }
+            };
+            
+            // Violation tracking
+            let violations = {
+                videos: [],
+                iframes: [],
+                objects: [],
+                total: 0
+            };
+            
+            // Common video hosting patterns
+            const videoHostPatterns = [
+                /youtube\.com\/(?:watch|embed)/i,
+                /youtu\.be\//i,
+                /vimeo\.com/i,
+                /dailymotion\.com/i,
+                /wistia\.(?:com|net)/i,
+                /brightcove\.(?:com|net)/i,
+                /jwplayer\.com/i,
+                /videojs\.com/i,
+                /kaltura\.com/i,
+                /twitch\.tv/i
+            ];
+            
+            // Main WCAG checker
+            function runWCAGChecks() {
+                console.log('🎯 Running WCAG 1.2.5 compliance check...');
+                
+                // Reset violations
+                violations = { videos: [], iframes: [], objects: [], total: 0 };
+                
+                try {
+                    checkVideoElements();
+                    checkIframeEmbeds();
+                    checkObjectEmbeds();
+                    displaySummary();
+                    
+                } catch (error) {
+                    console.error('❌ Error during WCAG checks:', error);
+                }
+            }
+            
+            // Check native HTML5 video elements
+            function checkVideoElements() {
+                $('video').each(function() {
+                    const $video = $(this);
+                    const src = $video.attr('src') || $video.find('source').first().attr('src');
+                    
+                    // Skip if this is likely live content
+                    if (isLiveContent($video)) return;
+                    
+                    // Check for audio description indicators
+                    const hasAudioDescription = checkForAudioDescription($video);
+                    
+                    if (!hasAudioDescription.found) {
+                        const violation = {
+                            element: this,
+                            type: 'video',
+                            issue: 'Video may be missing audio description',
+                            src: src || 'Multiple sources',
+                            details: hasAudioDescription.details,
+                            suggestion: 'Provide audio description track or ensure video includes integrated audio description'
+                        };
+                        
+                        violations.videos.push(violation);
+                        violations.total++;
+                        
+                        if (config.logViolations) {
+                            console.warn('🚨 WCAG 1.2.5: Video may be missing audio description', {
+                                element: this,
+                                src: violation.src,
+                                details: hasAudioDescription.details
+                            });
+                        }
+                        
+                        if (config.highlightViolations) {
+                            highlightElement($video, 'video', 'May need audio description');
+                        }
+                    }
+                });
+            }
+            
+            // Check iframe embeds
+            function checkIframeEmbeds() {
+                $('iframe').each(function() {
+                    const $iframe = $(this);
+                    const src = $iframe.attr('src');
+                    
+                    if (!src) return;
+                    
+                    // Check if this is a video hosting service
+                    const isVideoHost = videoHostPatterns.some(pattern => pattern.test(src));
+                    
+                    if (isVideoHost) {
+                        const hasAudioDescription = checkForAudioDescriptionIframe($iframe, src);
+                        
+                        if (!hasAudioDescription.found) {
+                            const violation = {
+                                element: this,
+                                type: 'iframe',
+                                issue: 'Embedded video may be missing audio description',
+                                src: src,
+                                platform: identifyVideoPlatform(src),
+                                details: hasAudioDescription.details,
+                                suggestion: 'Verify that embedded video has audio description available on the hosting platform'
+                            };
+                            
+                            violations.iframes.push(violation);
+                            violations.total++;
+                            
+                            if (config.logViolations) {
+                                console.warn('🚨 WCAG 1.2.5: Embedded video may be missing audio description', {
+                                    element: this,
+                                    platform: violation.platform,
+                                    src: src
+                                });
+                            }
+                            
+                            if (config.highlightViolations) {
+                                highlightElement($iframe, 'iframe', `${violation.platform} video may need audio description`);
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Check object/embed elements
+            function checkObjectEmbeds() {
+                $('object, embed').each(function() {
+                    const $element = $(this);
+                    const tagName = this.tagName.toLowerCase();
+                    const src = $element.attr('data') || $element.attr('src');
+                    const type = $element.attr('type');
+                    
+                    // Check if this might be video content
+                    if (isLikelyVideoContent(src, type)) {
+                        const hasAudioDescription = checkForAudioDescriptionObject($element);
+                        
+                        if (!hasAudioDescription.found) {
+                            const violation = {
+                                element: this,
+                                type: 'object',
+                                issue: `${tagName} video content may be missing audio description`,
+                                src: src || 'No source specified',
+                                details: hasAudioDescription.details,
+                                suggestion: `Verify that ${tagName} video content includes audio description`
+                            };
+                            
+                            violations.objects.push(violation);
+                            violations.total++;
+                            
+                            if (config.logViolations) {
+                                console.warn(`🚨 WCAG 1.2.5: ${tagName} video may be missing audio description`, {
+                                    element: this,
+                                    src: src
+                                });
+                            }
+                            
+                            if (config.highlightViolations) {
+                                highlightElement($element, 'object', `${tagName} may need audio description`);
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Check for audio description in video elements
+            function checkForAudioDescription($video) {
+                const details = [];
+                
+                // Check for track elements with kind="descriptions"
+                const descriptionTracks = $video.find('track[kind="descriptions"]');
+                if (descriptionTracks.length > 0) {
+                    return { found: true, details: ['Has description track elements'] };
+                }
+                
+                // Check for multiple audio tracks
+                const audioTracks = $video.find('source').length;
+                if (audioTracks > 1) {
+                    details.push('Multiple audio sources found - verify if one is audio description');
+                }
+                
+                // Check for aria-describedby pointing to audio description
+                const describedBy = $video.attr('aria-describedby');
+                if (describedBy) {
+                    const descElement = $(`#${describedBy}`);
+                    if (descElement.length && descElement.text().toLowerCase().includes('audio description')) {
+                        return { found: true, details: ['Has aria-describedby referencing audio description'] };
+                    }
+                    details.push('Has aria-describedby but unclear if it references audio description');
+                }
+                
+                return { found: false, details: details.length ? details : ['No audio description indicators found'] };
+            }
+            
+            // Check for audio description in iframe embeds
+            function checkForAudioDescriptionIframe($iframe, src) {
+                const details = [];
+                
+                // Check for aria-describedby
+                const describedBy = $iframe.attr('aria-describedby');
+                if (describedBy) {
+                    details.push('Has aria-describedby - verify it references audio description');
+                }
+                
+                // Check title for audio description mentions
+                const title = $iframe.attr('title');
+                if (title && title.toLowerCase().includes('audio description')) {
+                    return { found: true, details: ['Title mentions audio description'] };
+                }
+                
+                return { found: false, details: details.length ? details : ['Cannot verify audio description in embedded content'] };
+            }
+            
+            // Check for audio description in object/embed elements
+            function checkForAudioDescriptionObject($element) {
+                const details = [];
+                
+                // Check for param elements
+                const params = $element.find('param');
+                params.each(function() {
+                    const name = $(this).attr('name');
+                    const value = $(this).attr('value');
+                    if (name && (name.includes('description') || name.includes('audio'))) {
+                        details.push(`Found param: ${name}=${value}`);
+                    }
+                });
+                
+                return { found: false, details: details.length ? details : ['Cannot verify audio description in object/embed'] };
+            }
+            
+            // Check if content is likely live
+            function isLiveContent($element) {
+                const src = $element.attr('src') || '';
+                const title = $element.attr('title') || '';
+                const liveIndicators = ['live', 'stream', 'broadcast'];
+                
+                return liveIndicators.some(indicator => 
+                    src.toLowerCase().includes(indicator) || title.toLowerCase().includes(indicator)
+                );
+            }
+            
+            // Check if content is likely video
+            function isLikelyVideoContent(src, type) {
+                if (!src && !type) return false;
+                
+                const videoTypes = ['video/', 'application/x-shockwave-flash'];
+                const videoExtensions = ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm', '.mkv', '.swf'];
+                
+                if (type && videoTypes.some(vType => type.includes(vType))) return true;
+                if (src && videoExtensions.some(ext => src.toLowerCase().includes(ext))) return true;
+                
+                return false;
+            }
+            
+            // Identify video platform
+            function identifyVideoPlatform(src) {
+                if (src.includes('youtube.com') || src.includes('youtu.be')) return 'YouTube';
+                if (src.includes('vimeo.com')) return 'Vimeo';
+                if (src.includes('dailymotion.com')) return 'Dailymotion';
+                if (src.includes('wistia.')) return 'Wistia';
+                if (src.includes('brightcove.')) return 'Brightcove';
+                if (src.includes('twitch.tv')) return 'Twitch';
+                return 'Unknown platform';
+            }
+            
+            // Highlight violation elements
+            function highlightElement($element, type, message) {
+                const styles = config.violationStyles[type];
+                $element.css(styles);
+                $element.attr('data-wcag-violation', message);
+                
+                const currentTitle = $element.attr('title') || '';
+                const newTitle = currentTitle ? `${currentTitle} | WCAG 1.2.5: ${message}` : `WCAG 1.2.5: ${message}`;
+                $element.attr('title', newTitle);
+            }
+            
+            // Display summary
+            function displaySummary() {
+                if (config.showSummary) {
+                    const summary = [
+                        '📊 WCAG 1.2.5 Audio Description Summary:',
+                        `   HTML5 Videos: ${violations.videos.length} potential violations`,
+                        `   Embedded Videos: ${violations.iframes.length} potential violations`,
+                        `   Object/Embed Videos: ${violations.objects.length} potential violations`,
+                        `   Total: ${violations.total} potential violations found`
+                    ];
+                    
+                    if (violations.total === 0) {
+                        summary.push('✅ No obvious WCAG 1.2.5 violations detected!');
+                        summary.push('💡 Note: Manual verification is still recommended for video content');
+                    } else {
+                        summary.push('🔧 Manual verification required for highlighted video elements');
+                        summary.push('📋 Ensure all prerecorded videos have audio descriptions available');
+                        
+                        violations.videos.forEach((v, i) => {
+                            summary.push(`   Video ${i + 1}: ${v.details.join(', ')}`);
+                        });
+                        violations.iframes.forEach((v, i) => {
+                            summary.push(`   Embed ${i + 1} (${v.platform}): ${v.details.join(', ')}`);
+                        });
+                    }
+                    
+                    summary.forEach(line => console.log(line));
+                    
+                    // Update console output
+                    updateConsoleOutput(summary.join('\n'));
+                }
+            }
+            
+            return { runWCAGChecks, violations };
+        }
+
+        // Initialize checker
+        let wcagChecker;
+        
+        // Console output management
+        function updateConsoleOutput(text) {
+            const consoleEl = document.getElementById('console-output');
+            consoleEl.textContent = text;
+        }
+
+        function toggleConsole() {
+            const consoleEl = document.getElementById('console-output');
+            consoleEl.style.display = consoleEl.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function runChecker() {
+            // Clear previous highlights
+            clearHighlights();
+            
+            // Initialize and run checker
+            wcagChecker = initWCAGChecker();
+            wcagChecker.runWCAGChecks();
+            
+            // Show results
+            document.getElementById('console-output').style.display = 'block';
+        }
+
+        function clearHighlights() {
+            // Remove all violation styling
+            $('video, iframe, object, embed').each(function() {
+                $(this).css({
+                    border: '',
+                    boxShadow: '',
+                    outline: ''
+                });
+                $(this).removeAttr('data-wcag-violation');
+            });
+            
+            // Clear console
+            document.getElementById('console-output').textContent = '';
+            document.getElementById('console-output').style.display = 'none';
+        }
+
+        // Auto-run on page load for demonstration
+        $(document).ready(function() {
+            setTimeout(() => {
+                console.log('🚀 Auto-running WCAG 1.2.5 checker for demonstration...');
+                runChecker();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
