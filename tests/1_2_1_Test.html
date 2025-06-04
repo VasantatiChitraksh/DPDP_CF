@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WCAG 1.2.1 Test Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .test-section {
+            margin: 40px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        
+        .test-section h2 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        
+        .test-case {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+        
+        .test-case h3 {
+            color: #666;
+            margin-top: 0;
+        }
+        
+        .violation {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        
+        .compliant {
+            background-color: #e8f5e8;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .transcript {
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-style: italic;
+        }
+        
+        .alternative-text {
+            background-color: #e3f2fd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        
+        audio, video {
+            width: 100%;
+            max-width: 400px;
+            margin: 10px 0;
+        }
+        
+        .controls-section {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+        
+        .expected-output {
+            background: #f0f8ff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border-left: 4px solid #2196f3;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="controls-section">
+        <button onclick="runWCAGTest()" id="testButton">Run WCAG 1.2.1 Test</button>
+        <p><small>Check console for results</small></p>
+    </div>
+
+    <h1>WCAG 1.2.1 Audio-only and Video-only Test Website</h1>
+    <p>This website contains various audio and video elements to test WCAG 1.2.1 compliance checking.</p>
+
+    <div class="expected-output">
+        <h3>📊 Expected Test Results:</h3>
+        <ul>
+            <li><strong>Audio-only violations:</strong> 5 violations</li>
+            <li><strong>Video-only violations:</strong> 2 violations</li>
+            <li><strong>Media alternatives violations:</strong> 1 violation</li>
+            <li><strong>Total violations:</strong> 8 violations</li>
+        </ul>
+    </div>
+
+    <!-- AUDIO-ONLY TESTS -->
+    <div class="test-section">
+        <h2>🎵 Audio-only Content Tests</h2>
+        
+        <div class="test-case violation">
+            <h3>❌ Test 1: Audio without alternative (VIOLATION)</h3>
+            <p>This audio has no transcript or alternative text provided.</p>
+            <audio controls>
+                <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+Dx0nkpBSl+zPLaizsIGGS57OihUgwOVKzn77BdGAU4ldj1unImBSJ0xe7eizELHm/A7+OZSA0PUqXi8bllHgg2jdXzzn0vBSF4yu/YjDwJFFmi6OyrWBELTKbh6rJeGgU4ltryuXAeBjuD0fDWgT0LGWS37OahUwwOUarm7bJfGgU2ldj0v3AeBjl+zO/amDoIE1Wl6O2wXBoGNZXY8sFwHgY7gc/z1oE9CxhgtuznpVILD1Kp5O++aSEFNY7V8b1zJAUme8r12YYyCBJZqu/vr2AaBjWS1/O3cSAELIHO9duFNgkVYq7n7qxUEgxOq+Tug7dzJgMke8r12oY1CRJYqe7sv2EaBzOT1/S0ciAELYDM8tuENQkVYrPp6qxTEAhKoOL1tngmAyV7yvrVizoIEVOq5+60YR0AOJPv4e3LXhQFKHrK4cCINAURVqDh0+nnAyeRz/PagjcJFV+4y+GqWRcFJHfK89yOOwgUY7bj6a5VEAP+AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8w" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        
+        <div class="test-case compliant">
+            <h3>✅ Test 2: Audio with transcript (COMPLIANT)</h3>
+            <p>This audio has a proper transcript provided.</p>
+            <audio controls aria-describedby="transcript1">
+                <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+Dx0nkpBSl+zPLaizsIGGS57OihUgwOVKzn77BdGAU4ldj1unImBSJ0xe7eizELHm/A7+OZSA0PUqXi8bllHgg2jdXzzn0vBSF4yu/YjDwJFFmi6OyrWBELTKbh6rJeGgU4ltryuXAeBjuD0fDWgT0LGWS37OahUwwOUarm7bJfGgU2ldj0v3AeBjl+zO/amDo" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+            <div class="transcript" id="transcript1">
+                <strong>Transcript:</strong> Welcome to our audio content. This is a sample audio file used for accessibility testing purposes.
+            </div>
+        </div>
+        
+        <div class="test-case violation">
+            <h3>❌ Test 3: Embedded audio without alternative (VIOLATION)</h3>
+            <p>This embedded audio object has no alternative provided.</p>
+            <object type="audio/mpeg" data="sample-audio.mp3" width="300" height="50">
+                <param name="autoplay" value="false">
+                Your browser does not support this audio format.
+            </object>
+        </div>
+        
+        <div class="test-case compliant">
+            <h3>✅ Test 4: Audio as media alternative (COMPLIANT)</h3>
+            <p>This audio is clearly labeled as an alternative for text content.</p>
+            <div>
+                <p><strong>Original Text:</strong> The quick brown fox jumps over the lazy dog. This is a sample text for testing purposes.</p>
+                <p><em>Audio alternative provided below:</em></p>
+                <audio controls aria-label="Audio alternative for the text above" title="Alternative audio version of the text content">
+                    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+Pw" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+        
+        <div class="test-case violation">
+            <h3>❌ Test 5: Audio file via embed tag (VIOLATION)</h3>
+            <p>This is an audio file embedded without proper alternatives.</p>
+            <embed src="sample.mp3" type="audio/mpeg" width="300" height="50">
+        </div>
+    </div>
+
+    <!-- VIDEO-ONLY TESTS -->
+    <div class="test-section">
+        <h2>🎬 Video-only Content Tests</h2>
+        
+        <div class="test-case violation">
+            <h3>❌ Test 6: Video-only without alternative (VIOLATION)</h3>
+            <p>This is a video with no audio track and no alternative provided.</p>
+            <video controls muted data-no-audio="true" class="video-only">
+                <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAu5tZGF0" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <div class="test-case compliant">
+            <h3>✅ Test 7: Video-only with transcript (COMPLIANT)</h3>
+            <p>This video has no audio but includes a transcript.</p>
+            <video controls muted data-no-audio="true" aria-describedby="video-transcript1">
+                <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAu5tZGF0" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="transcript" id="video-transcript1">
+                <strong>Video Description:</strong> A person demonstrates hand gestures for basic sign language greetings including hello, goodbye, and thank you.
+            </div>
+        </div>
+        
+        <div class="test-case compliant">
+            <h3>✅ Test 8: Video with audio track (COMPLIANT)</h3>
+            <p>This video has an audio track, so it's not video-only.</p>
+            <video controls>
+                <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAu5tZGF0" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <div class="test-case violation">
+            <h3>❌ Test 9: Embedded video-only content (VIOLATION)</h3>
+            <p>Embedded video content without audio or alternatives.</p>
+            <object type="video/mp4" data="silent-video.mp4" width="400" height="300">
+                Your browser does not support this video format.
+            </object>
+        </div>
+    </div>
+
+    <!-- MEDIA ALTERNATIVE TESTS -->
+    <div class="test-section">
+        <h2>🏷️ Media Alternative Labeling Tests</h2>
+        
+        <div class="test-case violation">
+            <h3>❌ Test 10: Media alternative not clearly labeled (VIOLATION)</h3>
+            <p>This audio is meant to be an alternative but isn't clearly labeled as such.</p>
+            <div>
+                <p><strong>Article Text:</strong> Climate change is affecting weather patterns globally. Scientists recommend immediate action to reduce carbon emissions.</p>
+                <audio controls data-media-alternative="true">
+                    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+Pw" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+        
+        <div class="test-case compliant">
+            <h3>✅ Test 11: Well-labeled media alternative (COMPLIANT)</h3>
+            <p>This audio is properly labeled as a media alternative.</p>
+            <div>
+                <p><strong>Report Summary:</strong> The quarterly sales report shows a 15% increase in revenue compared to last quarter.</p>
+                <p><em>Audio alternative of the report summary:</em></p>
+                <audio controls aria-label="Audio alternative for quarterly sales report summary">
+                    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+Pw" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADDITIONAL EDGE CASES -->
+    <div class="test-section">
+        <h2>🧪 Edge Cases and Additional Tests</h2>
+        
+        <div class="test-case compliant">
+            <h3>✅ Test 12: Audio with transcript link (COMPLIANT)</h3>
+            <p>This audio provides a link to its transcript.</p>
+            <audio controls>
+                <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+Pw" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+            <p><a href="#transcript-link">View full transcript</a></p>
+        </div>
+        
+        <div class="test-case compliant">
+            <h3>✅ Test 13: Video with audio description track (COMPLIANT)</h3>
+            <p>This video includes audio description for visual content.</p>
+            <video controls>
+                <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAu5tZGF0" type="video/mp4">
+                <track kind="descriptions" src="audio-description.vtt" srclang="en" label="Audio Description">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <div class="expected-output">
+        <h3>🔍 Detailed Expected Console Output:</h3>
+        <pre style="background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto;">
+🔍 WCAG 1.2.1 Checker initializing...
+🎯 Running WCAG 1.2.1 compliance check...
+🚨 WCAG 1.2.1: Audio-only content missing alternative {element: audio, src: "data:audio/wav..."}
+🚨 WCAG 1.2.1: Audio-only content missing alternative {element: audio, src: "data:audio/wav..."}
+🚨 WCAG 1.2.1: Audio-only content missing alternative {element: audio, src: "data:audio/wav..."}
+🚨 WCAG 1.2.1: Embedded audio missing alternative object
+🚨 WCAG 1.2.1: Embedded audio missing alternative embed  
+🚨 WCAG 1.2.1: Video-only content missing alternative {element: video, src: "data:video/mp4..."}
+🚨 WCAG 1.2.1: Embedded video missing alternative object
+🚨 WCAG 1.2.1: Media alternative not clearly labeled audio
+📊 WCAG 1.2.1 Compliance Summary:
+   Audio-only: 5 violations
+   Video-only: 2 violations  
+   Media alternatives: 1 violations
+   Total: 8 violations found
+🔧 Review highlighted elements and provide appropriate alternatives:
+   • Audio-only: Provide transcripts or text equivalents
+   • Video-only: Provide transcripts or audio tracks
+   • Media alternatives: Clearly label as text alternatives
+        </pre>
+    </div>
+
+    <script>
+        // WCAG 1.2.1 Checker Script will be inserted here by user
+        
+        function runWCAGTest() {
+            console.clear();
+            console.log('🧪 Starting WCAG 1.2.1 test...');
+            
+            // The user should paste the WCAG 1.2.1 checker script here
+            console.log('⚠️ Please paste the WCAG 1.2.1 checker script in the console or add it to this page');
+            
+            // Simulate expected violations for demonstration
+            setTimeout(() => {
+                console.log('\n📋 Expected Test Results Summary:');
+                console.log('   • Audio elements without alternatives: 5 violations');
+                console.log('   • Video-only elements without alternatives: 2 violations');
+                console.log('   • Media alternatives not clearly labeled: 1 violation');
+                console.log('   • Total expected violations: 8');
+                console.log('\n🔗 Violation elements should be highlighted with colored borders');
+            }, 1000);
+        }
+        
+        // Auto-run test when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 WCAG 1.2.1 Test Page Loaded');
+            console.log('🎯 This page contains 13 test cases with 8 expected violations');
+            console.log('📝 Paste the WCAG 1.2.1 checker script and run it to see results');
+        });
+    </script>
+</body>
+</html>
